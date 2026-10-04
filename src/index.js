@@ -1,11 +1,31 @@
 import searchLocations from "./weather.js";
-import { showSearchSuggestions } from "./ui.js";
+import { showSearchSuggestions, showLoadingPlaceholder, showSearchError } from "./ui.js";
 import { getSearchValue, debouncer } from "./utils.js";
 import Cloud9 from "./app.js";
 
+let controller;
+
 const debouncedSearch = debouncer(async (searchQuery) => {
-    const locations = await searchLocations(searchQuery);
-    showSearchSuggestions(locations);
+    if(controller) {
+        controller.abort();
+    }
+    controller = new AbortController();
+    
+    try {
+        showLoadingPlaceholder();
+
+        const locations = await searchLocations(searchQuery, controller.signal);
+        showSearchSuggestions(locations);
+    }
+    catch(error) {
+        if(error.name === 'AbortError') {
+            return;
+        }
+
+        showSearchError();
+        throw error;
+    }
+
 }, 300);
 
 Cloud9.UI.locationSearch.addEventListener('input', async() => {

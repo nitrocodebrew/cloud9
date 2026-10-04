@@ -36,5 +36,19 @@ function showSearchSuggestions(locations) {
     });
 }
 
-export { $, createHtmlElement, showSearchSuggestions };
+function showLoadingPlaceholder() {
+    Cloud9.UI.searchSuggestions.textContent = 'Loading...';
+}
+
+function showSearchError() {
+    Cloud9.UI.searchSuggestions.textContent = 'Unable to search locations. Please try again.';
+}
+
+export { 
+    $, 
+    createHtmlElement, 
+    showSearchSuggestions, 
+    showLoadingPlaceholder, 
+    showSearchError
+};
 

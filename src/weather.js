@@ -1,4 +1,4 @@
-async function searchLocations(query) {
+async function searchLocations(query, signal) {
     const url = new URL(
         `https://geocoding-api.open-meteo.com/v1/search`
     );
@@ -8,7 +8,9 @@ async function searchLocations(query) {
     url.searchParams.set('language', 'en');
     url.searchParams.set('format', 'json');
 
-    const response = await fetch(url);
+    const response = await fetch(url, { 
+        signal 
+    });
 
     if(!response.ok) {
         throw new Error(`Unable to search locations: ${response.statusText}`);
