@@ -1,4 +1,4 @@
-import searchLocations from "./weather.js";
+import { searchLocations } from "./weather.js";
 import { showSearchSuggestions, showLoadingPlaceholder, showSearchError } from "./ui.js";
 import { getSearchValue, debouncer } from "./utils.js";
 import Cloud9 from "./app.js";

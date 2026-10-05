@@ -21,4 +21,24 @@ async function searchLocations(query, signal) {
     return data.results ?? [];
 }
 
-export default searchLocations;
+async function getWeatherDetails(latitude, longitude) {
+    const url = new URL(
+        `https://api.open-meteo.com/v1/forecast`
+    );
+
+    url.searchParams.set('current', 'temperature_2m,apparent_temperature,weather_code,wind_speed_10m');
+    url.searchParams.set('latitude', latitude);
+    url.searchParams.set('longitude', longitude);
+
+    const response = await fetch(url);
+
+    if(!response.ok) {
+        throw new Error(`Unable to fetch weather details: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    
+    return data;
+}
+
+export { searchLocations, getWeatherDetails };
