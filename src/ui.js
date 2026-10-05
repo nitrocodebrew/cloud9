@@ -1,4 +1,5 @@
 import Cloud9 from "./app.js";
+import { getWindDirection } from "./utils.js";
 import { getWeatherDetails } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
 
@@ -26,6 +27,7 @@ function showCurrentWeatherDetails(currentForecast) {
     Cloud9.UI.currentApparentTemp.textContent = `${currentForecast.apparent_temperature} ℃`;
     Cloud9.UI.currentConditions.textContent = `${weatherDescriptions[currentForecast.weather_code]}`;
     Cloud9.UI.currentWind.textContent = `${currentForecast.wind_speed_10m}km/h`;
+    Cloud9.UI.currentWindDirection.textContent = getWindDirection(currentForecast.wind_direction_10m);
 }
 
 function showSearchSuggestions(locations) {
@@ -49,8 +51,8 @@ function showSearchSuggestions(locations) {
             const { latitude, longitude } = e.currentTarget.dataset;
 
             const currentWeather = await getWeatherDetails(latitude, longitude);
-            showCurrentWeatherDetails(currentWeather.current);
             //console.log(currentWeather.current);
+            showCurrentWeatherDetails(currentWeather.current);
         });
     });
 }

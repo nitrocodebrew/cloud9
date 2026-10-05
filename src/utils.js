@@ -4,6 +4,16 @@ function getSearchValue() {
     return Cloud9.UI.locationSearch.value.trim();
 }
 
+function getWindDirection(data) {
+    const directions = [
+        'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
+        'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
+    ];
+
+    const index = Math.round(data / 22.5) % 16;
+    return directions[index];
+}
+
 function debouncer(callback, delay) {
     let timeoutID;
 
@@ -17,4 +27,4 @@ function debouncer(callback, delay) {
     };
 }
 
-export { getSearchValue, debouncer };
+export { getSearchValue, getWindDirection, debouncer };
