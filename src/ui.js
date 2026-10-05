@@ -1,5 +1,6 @@
 import Cloud9 from "./app.js";
 import { getWeatherDetails } from "./weather.js";
+import weatherDescriptions from "./weatherDescriptions.js";
 
 function $(selector, target = document) {
     return target.querySelector(selector);
@@ -21,8 +22,9 @@ function createHtmlElement(tag, parentElement, attrs = {}) {
 }
 
 function showCurrentWeatherDetails(currentForecast) {
-    Cloud9.UI.currentTemp.textContent = `${currentForecast.temperature_2m}℃`;
-    Cloud9.UI.currentApparentTemp.textContent = `${currentForecast.apparent_temperature}℃`;
+    Cloud9.UI.currentTemp.textContent = `${currentForecast.temperature_2m} ℃`;
+    Cloud9.UI.currentApparentTemp.textContent = `${currentForecast.apparent_temperature} ℃`;
+    Cloud9.UI.currentConditions.textContent = `${weatherDescriptions[currentForecast.weather_code]}`;
     Cloud9.UI.currentWind.textContent = `${currentForecast.wind_speed_10m}km/h`;
 }
 
@@ -48,7 +50,7 @@ function showSearchSuggestions(locations) {
 
             const currentWeather = await getWeatherDetails(latitude, longitude);
             showCurrentWeatherDetails(currentWeather.current);
-            console.log(currentWeather.current);
+            //console.log(currentWeather.current);
         });
     });
 }
