@@ -22,15 +22,38 @@
                 <button type="button" class="location-search-btn">Find</button>
             </form>
             <div class="search-suggestions">
-                
+
             </div>
         </div>
     </header>
     <main class="weather-report">
         <div class="container weather-report-container">
-            <dl class="weather-details">
+            <section class="current-weather-details">
+                <h1 class="location-name"></h1>
+                <dl>
+                    <div class="current-row">
+                        <dt>Temperature</dt>
+                        <dd class="current-temp"></dd>
+                    </div>
+                    <div class="current-row">
+                        <dt>Feels</dt>
+                        <dd class="current-apparent-temp"></dd>
+                    </div>
+                    <div class="current-row">
+                        <dt>Conditions</dt>
+                        <dd class="current-conditions"></dd>
+                    </div>
+                    <div class="current-row">
+                        <dt>Wind</dt>
+                        <dd class="current-wind"></dd>
+                    </div>
+                </dl>
+            </section>
+            <section class="hourly-forecast">
+                <dl>
 
-            </dl>
+                </dl>
+            </section>
         </div>
     </main>
     <footer class="footer">
