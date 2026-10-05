@@ -9,6 +9,8 @@ const Cloud9 = {
         currentApparentTemp: $('.current-apparent-temp'),
         currentConditions: $('.current-conditions'),
         currentWind: $('.current-wind'),
+        currentWindDirection: $('.current-wind-direction'),
+        hourlyForecast: $('.hourly-forecast ul'),
     },
 };
 

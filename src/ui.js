@@ -1,6 +1,6 @@
 import Cloud9 from "./app.js";
-import { getWindDirection } from "./utils.js";
-import { getWeatherDetails } from "./weather.js";
+import { getWindDirection, formatHour } from "./utils.js";
+import { getWeatherDetails, parseHourlyWeather } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
 
 function $(selector, target = document) {
@@ -30,6 +30,32 @@ function showCurrentWeatherDetails(currentForecast) {
     Cloud9.UI.currentWindDirection.textContent = getWindDirection(currentForecast.wind_direction_10m);
 }
 
+function showHourlyWeather(forecast) {
+    forecast.forEach(f => {
+        const listItem = createHtmlElement('li', Cloud9.UI.hourlyForecast);
+        
+        createHtmlElement('span', listItem, {
+            className: 'hourly-weather-time',
+            textContent: formatHour(new Date(f.time)),
+        });
+
+        createHtmlElement('span', listItem, {
+            className: 'hourly-temperature',
+            textContent: `${f.temperature} ℃`,
+        });
+
+        createHtmlElement('span', listItem, {
+            className: 'hourly-conditions',
+            textContent: `${weatherDescriptions[f.weatherCode]}`
+        });
+
+        createHtmlElement('small', listItem, {
+            className: 'hourly-precipitation-probability',
+            textContent: `${f.precipitationProbability}%`,
+        });
+    })
+}
+
 function showSearchSuggestions(locations) {
     Cloud9.UI.searchSuggestions.innerHTML = '';
 
@@ -51,8 +77,10 @@ function showSearchSuggestions(locations) {
             const { latitude, longitude } = e.currentTarget.dataset;
 
             const currentWeather = await getWeatherDetails(latitude, longitude);
-            //console.log(currentWeather.current);
             showCurrentWeatherDetails(currentWeather.current);
+
+            const hourlyForecast = parseHourlyWeather(currentWeather.hourly);
+            showHourlyWeather(hourlyForecast.slice(0, 12));
         });
     });
 }

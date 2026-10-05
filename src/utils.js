@@ -27,4 +27,15 @@ function debouncer(callback, delay) {
     };
 }
 
-export { getSearchValue, getWindDirection, debouncer };
+function formatHour(time) {
+    return new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+    }).format(time);
+}
+
+export { 
+    getSearchValue, 
+    getWindDirection, 
+    debouncer, 
+    formatHour 
+};
