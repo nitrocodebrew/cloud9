@@ -27,6 +27,28 @@ function debouncer(callback, delay) {
     };
 }
 
+function celsiusToFahrenheit(celsius) {
+    return (celsius * 9 / 5) + 32;
+}
+
+function kmhToMph(kmh) {
+    return kmh / 1.60934;
+}
+
+function kmToMiles(km) {
+    return km / 1.60934;
+}
+
+function formatVisibility(meters, measurementSystem) {
+    const kilometers = meters / 1000;
+
+    if(measurementSystem === 'us') {
+        return `${kmToMiles(kilometers).toFixed(1)} mi`;
+    }
+
+    return `${kilometers.toFixed(1)} km`;
+}
+
 function formatHour(time) {
     return new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
@@ -45,6 +67,22 @@ function formatWeatherTime(time) {
     }).format(date);
 }
 
+function formatTemperature(celsius, measurementSystem) {
+    if(measurementSystem === 'us') {
+        return `${Math.round(celsiusToFahrenheit(celsius))} °F`;
+    }
+
+    return `${Math.round(celsius)} °C`;
+}
+
+function formatWindSpeed(kmh, measurementSystem) {
+    if(measurementSystem === 'us') {
+        return `${Math.round(kmhToMph(kmh))} mph`;
+    }
+
+    return `${Math.round(kmh)} km/h`;
+}
+
 
 
 export { 
@@ -52,5 +90,10 @@ export {
     getWindDirection, 
     debouncer, 
     formatHour,
-    formatWeatherTime, 
+    formatWeatherTime,
+    formatTemperature,
+    celsiusToFahrenheit,
+    formatWindSpeed,
+    kmhToMph,
+    formatVisibility,
 };

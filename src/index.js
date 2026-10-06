@@ -16,12 +16,33 @@ import {
     clearWeatherStatus
 } from "./ui.js";
 
-import { getSearchValue, debouncer } from "./utils.js";
+import {
+    getSearchValue,
+    debouncer
+} from "./utils.js";
+
 import Cloud9 from "./app.js";
 
 let controller;
 let weatherController;
 let weatherRequestID = 0;
+
+let currentWeather;
+
+let measurementSystem =
+    localStorage.getItem('measurementSystem') ?? 'metric';
+
+function renderWeather() {
+    if(!currentWeather) {
+        return;
+    }
+
+    showCurrentWeatherDetails(currentWeather.current, measurementSystem);
+
+    const hourlyForecast = parseHourlyWeather(currentWeather.hourly);
+    showHourlyWeather(hourlyForecast.slice(0, 12), measurementSystem);
+    showAdditionalWeatherDetails(currentWeather, measurementSystem);
+}
 
 async function handleLocationSelect(latitude, longitude) {
     if(weatherController) {
@@ -35,23 +56,14 @@ async function handleLocationSelect(latitude, longitude) {
     try {
         showWeatherLoading();
 
-        const weather = await getWeatherDetails(
-            latitude,
-            longitude,
-            weatherController.signal
-        );
+        currentWeather = await getWeatherDetails(latitude, longitude, weatherController.signal);
 
         // Ignore stale responses
         if(requestId !== weatherRequestID) {
             return;
         }
 
-        showCurrentWeatherDetails(weather.current);
-
-        const hourlyForecast = parseHourlyWeather(weather.hourly);
-
-        showHourlyWeather(hourlyForecast.slice(0, 12));
-        showAdditionalWeatherDetails(weather);
+        renderWeather();
 
         clearWeatherStatus();
     }
@@ -59,7 +71,7 @@ async function handleLocationSelect(latitude, longitude) {
         if(error.name === 'AbortError') {
             return;
         }
-        //console.log(error);
+
         showWeatherError();
     }
 }
@@ -70,15 +82,11 @@ const debouncedSearch = debouncer(async (searchQuery) => {
     }
 
     controller = new AbortController();
-    
+
     try {
         showLoadingPlaceholder();
 
-        const locations = await searchLocations(
-            searchQuery,
-            controller.signal
-        );
-
+        const locations = await searchLocations(searchQuery, controller.signal);
         showSearchSuggestions(locations, handleLocationSelect);
     }
     catch(error) {
@@ -98,4 +106,19 @@ Cloud9.UI.locationSearch.addEventListener('input', async() => {
     }
 
     debouncedSearch(searchQuery);
+});
+
+Cloud9.UI.unitToggler.addEventListener('click', e => {
+    const toggleCelsius = e.target.closest('.use-celsius');
+    const toggleFahrenheit = e.target.closest('.use-fahrenheit');
+
+    if(toggleCelsius) {
+        measurementSystem = 'metric';
+    }
+    else if(toggleFahrenheit) {
+        measurementSystem = 'us';
+    }
+
+    localStorage.setItem('measurementSystem', measurementSystem);
+    renderWeather();
 });

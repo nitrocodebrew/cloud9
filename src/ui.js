@@ -1,5 +1,15 @@
 import Cloud9 from "./app.js";
-import { getWindDirection, formatHour, formatWeatherTime } from "./utils.js";
+import { 
+    getWindDirection, 
+    formatHour, 
+    formatWeatherTime,
+    celsiusToFahrenheit,
+    formatWindSpeed,
+    kmhToMph,
+    formatTemperature,
+    formatVisibility,
+
+} from "./utils.js";
 import { getWeatherDetails, parseHourlyWeather } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
 
@@ -22,24 +32,25 @@ function createHtmlElement(tag, parentElement, attrs = {}) {
     return parentElement.appendChild(htmlElement);
 }
 
-function showCurrentWeatherDetails(currentForecast) {
-    Cloud9.UI.currentTemp.textContent = `${currentForecast.temperature_2m} ℃`;
-    Cloud9.UI.currentApparentTemp.textContent = `${currentForecast.apparent_temperature} ℃`;
-    Cloud9.UI.currentConditions.textContent = `${weatherDescriptions[currentForecast.weather_code]}`;
-    Cloud9.UI.currentWind.textContent = `${currentForecast.wind_speed_10m}km/h`;
+function showCurrentWeatherDetails(currentForecast, measurementSystem) {
+    Cloud9.UI.currentTemp.textContent = formatTemperature(currentForecast.temperature_2m, measurementSystem);
+    Cloud9.UI.currentApparentTemp.textContent = formatTemperature(currentForecast.apparent_temperature, measurementSystem);
+    Cloud9.UI.currentConditions.textContent = weatherDescriptions[currentForecast.weather_code];
+    Cloud9.UI.currentWind.textContent = formatWindSpeed(currentForecast.wind_speed_10m, measurementSystem);
     Cloud9.UI.currentWindDirection.textContent = getWindDirection(currentForecast.wind_direction_10m);
 }
 
-function showAdditionalWeatherDetails(weather) {
+
+function showAdditionalWeatherDetails(weather, measurementSystem) {
     const { current, daily } = weather;
 
     Cloud9.UI.sunrise.textContent = formatWeatherTime(daily.sunrise[0]);
     Cloud9.UI.sunset.textContent = formatWeatherTime(daily.sunset[0]);
     Cloud9.UI.humidity.textContent = `${current.relative_humidity_2m}%`;
-    Cloud9.UI.visibility.textContent = `${(current.visibility / 1000).toFixed(1)} km`;
+    Cloud9.UI.visibility.textContent = formatVisibility(current.visibility, measurementSystem);
 } 
 
-function showHourlyWeather(forecast) {
+function showHourlyWeather(forecast, measurementSystem) {
     Cloud9.UI.hourlyForecast.innerHTML = '';
 
     forecast.forEach(f => {
@@ -52,7 +63,7 @@ function showHourlyWeather(forecast) {
 
         createHtmlElement('span', listItem, {
             className: 'hourly-temperature',
-            textContent: `${f.temperature} ℃`,
+            textContent: formatTemperature(f.temperature, measurementSystem),
         });
 
         createHtmlElement('span', listItem, {
@@ -121,10 +132,6 @@ function showWeatherError() {
 function clearWeatherStatus() {
     Cloud9.UI.weatherStatus.textContent = '';
 }
-
-
-
-
 
 export { 
     $, 

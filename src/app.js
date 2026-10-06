@@ -5,6 +5,8 @@ const Cloud9 = {
         locationSearch: $('#location-search'),
         locationSearchBtn: $('.location-search-btn'),
         searchSuggestions: $('.search-suggestions'),
+        unitToggler: $('.unit-toggle'),
+        weatherStatus: $('.weather-status'),
         currentTemp: $('.current-temp'),
         currentApparentTemp: $('.current-apparent-temp'),
         currentConditions: $('.current-conditions'),
