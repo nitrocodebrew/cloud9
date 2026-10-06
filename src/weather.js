@@ -26,8 +26,10 @@ async function getWeatherDetails(latitude, longitude) {
         `https://api.open-meteo.com/v1/forecast`
     );
 
-    url.searchParams.set('current', 'temperature_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m');
+    url.searchParams.set('current', 'temperature_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,visibility');
     url.searchParams.set('hourly', 'temperature_2m,weather_code,precipitation_probability');
+    url.searchParams.set('daily', 'sunrise,sunset');
+    url.searchParams.set('timezone', 'auto');
     url.searchParams.set('latitude', latitude);
     url.searchParams.set('longitude', longitude);
 

@@ -30,7 +30,7 @@ function debouncer(callback, delay) {
 function formatHour(time) {
     return new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
-    }).format(time);
+    }).format(new Date(time));
 }
 
 export { 

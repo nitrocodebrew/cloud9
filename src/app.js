@@ -11,6 +11,10 @@ const Cloud9 = {
         currentWind: $('.current-wind'),
         currentWindDirection: $('.current-wind-direction'),
         hourlyForecast: $('.hourly-forecast ul'),
+        sunrise: $('.additional-sunrise'),
+        sunset: $('.additional-sunset'),
+        humidity: $('.additional-humidity'),
+        visibility: $('.additional-visibility'),
     },
 };
 

@@ -30,15 +30,24 @@ function showCurrentWeatherDetails(currentForecast) {
     Cloud9.UI.currentWindDirection.textContent = getWindDirection(currentForecast.wind_direction_10m);
 }
 
+function showAdditionalWeatherDetails(weather) {
+    const { current, daily } = weather;
+
+    Cloud9.UI.sunrise.textContent = formatHour(daily.sunrise[0]);
+    Cloud9.UI.sunset.textContent = formatHour(daily.sunset[0]);
+    Cloud9.UI.humidity.textContent = `${current.relative_humidity_2m}%`;
+    Cloud9.UI.visibility.textContent = `${(current.visibility / 1000).toFixed(1)} km`;
+} 
+
 function showHourlyWeather(forecast) {
     Cloud9.UI.hourlyForecast.innerHTML = '';
-    
+
     forecast.forEach(f => {
         const listItem = createHtmlElement('li', Cloud9.UI.hourlyForecast);
         
         createHtmlElement('span', listItem, {
             className: 'hourly-weather-time',
-            textContent: formatHour(new Date(f.time)),
+            textContent: formatHour(f.time),
         });
 
         createHtmlElement('span', listItem, {
@@ -83,6 +92,8 @@ function showSearchSuggestions(locations) {
 
             const hourlyForecast = parseHourlyWeather(currentWeather.hourly);
             showHourlyWeather(hourlyForecast.slice(0, 12));
+
+            showAdditionalWeatherDetails(currentWeather);
         });
     });
 }
