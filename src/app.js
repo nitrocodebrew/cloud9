@@ -8,6 +8,7 @@ const Cloud9 = {
         unitToggler: $('.unit-toggle'),
         weatherStatus: $('.weather-status'),
         weatherContainer: $('.weather-container'),
+        locationName: $('.location-name'),
         currentTemp: $('.current-temp'),
         currentApparentTemp: $('.current-apparent-temp'),
         currentConditions: $('.current-conditions'),

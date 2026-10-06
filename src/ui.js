@@ -100,13 +100,14 @@ function showSearchSuggestions(locations, onLocationSelect) {
                 textContent: locationName,
                 'data-latitude': loc.latitude,
                 'data-longitude': loc.longitude,
+                'data-location-name': loc.name,
             }
         );
 
         suggestion.addEventListener('click', e => {
-            const { latitude, longitude } = e.currentTarget.dataset;
+            const { latitude, longitude, locationName } = e.currentTarget.dataset;
 
-            onLocationSelect(latitude, longitude);
+            onLocationSelect(latitude, longitude, locationName);
         });
 
     });

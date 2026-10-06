@@ -43,7 +43,7 @@ function renderWeather() {
     showAdditionalWeatherDetails(currentWeather, measurementSystem);
 }
 
-async function handleLocationSelect(latitude, longitude) {
+async function handleLocationSelect(latitude, longitude, locationName) {
     if(weatherController) {
         weatherController.abort();
     }
@@ -63,6 +63,8 @@ async function handleLocationSelect(latitude, longitude) {
         }
 
         Cloud9.UI.weatherContainer.hidden = false;
+        Cloud9.UI.searchSuggestions.hidden = true;
+        Cloud9.UI.locationName.textContent = locationName;
 
         renderWeather();
         clearWeatherStatus();
@@ -104,6 +106,8 @@ Cloud9.UI.locationSearch.addEventListener('input', async() => {
     if(searchQuery.length < 3) {
         return;
     }
+
+    Cloud9.UI.searchSuggestions.hidden = false;
 
     debouncedSearch(searchQuery);
 });
