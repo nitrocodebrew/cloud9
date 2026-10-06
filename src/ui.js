@@ -3,6 +3,9 @@ import { getWindDirection, formatHour, formatWeatherTime } from "./utils.js";
 import { getWeatherDetails, parseHourlyWeather } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
 
+let weatherRequestID = 0;
+let weatherController;
+
 function $(selector, target = document) {
     return target.querySelector(selector);
 }
@@ -76,27 +79,64 @@ function showSearchSuggestions(locations) {
     }
 
     locations.forEach((loc) => {
-        const suggestion = createHtmlElement('button', Cloud9.UI.searchSuggestions, {
-            type: 'button',
-            className: 'location-suggestion',
-            textContent: `${loc.name}, ${loc.admin1}, ${loc.country}`,
-            'data-latitude': loc.latitude,
-            'data-longitude': loc.longitude,
-        });
+        const locationName = loc.admin1
+            ? `${loc.name}, ${loc.admin1}, ${loc.country}`
+            : `${loc.name}, ${loc.country}`;
+
+        const suggestion = createHtmlElement(
+            'button',
+            Cloud9.UI.searchSuggestions,
+            {
+                type: 'button',
+                className: 'location-suggestion',
+                textContent: locationName,
+                'data-latitude': loc.latitude,
+                'data-longitude': loc.longitude,
+            }
+        );
 
         suggestion.addEventListener('click', async e => {
             const { latitude, longitude } = e.currentTarget.dataset;
 
-            const currentWeather = await getWeatherDetails(latitude, longitude);
-            showCurrentWeatherDetails(currentWeather.current);
+            if(weatherController) {
+                weatherController.abort();
+            }
 
-            const hourlyForecast = parseHourlyWeather(currentWeather.hourly);
-            showHourlyWeather(hourlyForecast.slice(0, 12));
+            weatherController = new AbortController();
 
-            showAdditionalWeatherDetails(currentWeather);
+            const requestId = ++weatherRequestID;
+
+            try {
+                const currentWeather = await getWeatherDetails(
+                    latitude,
+                    longitude,
+                    weatherController.signal
+                );
+
+                // Ignore stale responses
+                if(requestId !== weatherRequestID) {
+                    return;
+                }
+
+                showCurrentWeatherDetails(currentWeather.current);
+
+                const hourlyForecast = parseHourlyWeather(
+                    currentWeather.hourly
+                );
+
+                showHourlyWeather(hourlyForecast.slice(0, 12));
+                showAdditionalWeatherDetails(currentWeather);
+            }
+            catch(error) {
+                if(error.name === 'AbortError') {
+                    return;
+                }
+                throw error;
+            }
         });
     });
 }
+
 
 function showLoadingPlaceholder() {
     Cloud9.UI.searchSuggestions.textContent = 'Loading...';

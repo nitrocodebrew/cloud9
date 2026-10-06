@@ -21,7 +21,7 @@ async function searchLocations(query, signal) {
     return data.results ?? [];
 }
 
-async function getWeatherDetails(latitude, longitude) {
+async function getWeatherDetails(latitude, longitude, signal) {
     const url = new URL(
         `https://api.open-meteo.com/v1/forecast`
     );
@@ -33,7 +33,9 @@ async function getWeatherDetails(latitude, longitude) {
     url.searchParams.set('latitude', latitude);
     url.searchParams.set('longitude', longitude);
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        signal
+    });
 
     if(!response.ok) {
         throw new Error(`Unable to fetch weather details: ${response.statusText}`);
