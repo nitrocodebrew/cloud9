@@ -31,6 +31,8 @@ function showCurrentWeatherDetails(currentForecast) {
 }
 
 function showHourlyWeather(forecast) {
+    Cloud9.UI.hourlyForecast.innerHTML = '';
+    
     forecast.forEach(f => {
         const listItem = createHtmlElement('li', Cloud9.UI.hourlyForecast);
         
