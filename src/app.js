@@ -7,6 +7,7 @@ const Cloud9 = {
         searchSuggestions: $('.search-suggestions'),
         unitToggler: $('.unit-toggle'),
         weatherStatus: $('.weather-status'),
+        weatherContainer: $('.weather-container'),
         currentTemp: $('.current-temp'),
         currentApparentTemp: $('.current-apparent-temp'),
         currentConditions: $('.current-conditions'),

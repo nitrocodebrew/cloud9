@@ -29,8 +29,7 @@ let weatherRequestID = 0;
 
 let currentWeather;
 
-let measurementSystem =
-    localStorage.getItem('measurementSystem') ?? 'metric';
+let measurementSystem = localStorage.getItem('measurementSystem') ?? 'metric';
 
 function renderWeather() {
     if(!currentWeather) {
@@ -63,8 +62,9 @@ async function handleLocationSelect(latitude, longitude) {
             return;
         }
 
-        renderWeather();
+        Cloud9.UI.weatherContainer.hidden = false;
 
+        renderWeather();
         clearWeatherStatus();
     }
     catch(error) {
