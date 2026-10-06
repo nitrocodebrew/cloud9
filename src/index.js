@@ -22,6 +22,7 @@ import {
 } from "./utils.js";
 
 import Cloud9 from "./app.js";
+import Storage from "./storage.js";
 
 let controller;
 let weatherController;
@@ -29,7 +30,8 @@ let weatherRequestID = 0;
 
 let currentWeather;
 
-let measurementSystem = localStorage.getItem('measurementSystem') ?? 'metric';
+const storage = new Storage();
+let measurementSystem = storage.get('measurementSystem') ?? 'metric';
 
 function renderWeather() {
     if(!currentWeather) {
@@ -123,6 +125,6 @@ Cloud9.UI.unitToggler.addEventListener('click', e => {
         measurementSystem = 'us';
     }
 
-    localStorage.setItem('measurementSystem', measurementSystem);
+    storage.set('measurementSystem', measurementSystem);
     renderWeather();
 });
