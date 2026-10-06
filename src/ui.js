@@ -3,9 +3,6 @@ import { getWindDirection, formatHour, formatWeatherTime } from "./utils.js";
 import { getWeatherDetails, parseHourlyWeather } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
 
-let weatherRequestID = 0;
-let weatherController;
-
 function $(selector, target = document) {
     return target.querySelector(selector);
 }
@@ -70,7 +67,7 @@ function showHourlyWeather(forecast) {
     })
 }
 
-function showSearchSuggestions(locations) {
+function showSearchSuggestions(locations, onLocationSelect) {
     Cloud9.UI.searchSuggestions.innerHTML = '';
 
     if(locations.length === 0) {
@@ -95,45 +92,12 @@ function showSearchSuggestions(locations) {
             }
         );
 
-        suggestion.addEventListener('click', async e => {
+        suggestion.addEventListener('click', e => {
             const { latitude, longitude } = e.currentTarget.dataset;
 
-            if(weatherController) {
-                weatherController.abort();
-            }
-
-            weatherController = new AbortController();
-
-            const requestId = ++weatherRequestID;
-
-            try {
-                const currentWeather = await getWeatherDetails(
-                    latitude,
-                    longitude,
-                    weatherController.signal
-                );
-
-                // Ignore stale responses
-                if(requestId !== weatherRequestID) {
-                    return;
-                }
-
-                showCurrentWeatherDetails(currentWeather.current);
-
-                const hourlyForecast = parseHourlyWeather(
-                    currentWeather.hourly
-                );
-
-                showHourlyWeather(hourlyForecast.slice(0, 12));
-                showAdditionalWeatherDetails(currentWeather);
-            }
-            catch(error) {
-                if(error.name === 'AbortError') {
-                    return;
-                }
-                throw error;
-            }
+            onLocationSelect(latitude, longitude);
         });
+
     });
 }
 
@@ -146,6 +110,20 @@ function showSearchError() {
     Cloud9.UI.searchSuggestions.textContent = 'Unable to search locations. Please try again.';
 }
 
+function showWeatherLoading() {
+    Cloud9.UI.weatherStatus.textContent = 'Loading weather...';
+}
+
+function showWeatherError() {
+    Cloud9.UI.weatherStatus.textContent = 'Unable to load weather. Please try again.';
+}
+
+function clearWeatherStatus() {
+    Cloud9.UI.weatherStatus.textContent = '';
+}
+
+
+
 
 
 export { 
@@ -155,5 +133,10 @@ export {
     showLoadingPlaceholder, 
     showSearchError,
     showCurrentWeatherDetails,
+    showHourlyWeather,
+    showAdditionalWeatherDetails,
+    showWeatherLoading,
+    showWeatherError,
+    clearWeatherStatus,
 };
 
