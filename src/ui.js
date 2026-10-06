@@ -1,5 +1,5 @@
 import Cloud9 from "./app.js";
-import { getWindDirection, formatHour } from "./utils.js";
+import { getWindDirection, formatHour, formatWeatherTime } from "./utils.js";
 import { getWeatherDetails, parseHourlyWeather } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
 
@@ -33,8 +33,8 @@ function showCurrentWeatherDetails(currentForecast) {
 function showAdditionalWeatherDetails(weather) {
     const { current, daily } = weather;
 
-    Cloud9.UI.sunrise.textContent = formatHour(daily.sunrise[0]);
-    Cloud9.UI.sunset.textContent = formatHour(daily.sunset[0]);
+    Cloud9.UI.sunrise.textContent = formatWeatherTime(daily.sunrise[0]);
+    Cloud9.UI.sunset.textContent = formatWeatherTime(daily.sunset[0]);
     Cloud9.UI.humidity.textContent = `${current.relative_humidity_2m}%`;
     Cloud9.UI.visibility.textContent = `${(current.visibility / 1000).toFixed(1)} km`;
 } 
@@ -47,7 +47,7 @@ function showHourlyWeather(forecast) {
         
         createHtmlElement('span', listItem, {
             className: 'hourly-weather-time',
-            textContent: formatHour(f.time),
+            textContent: formatHour(new Date(f.time)),
         });
 
         createHtmlElement('span', listItem, {

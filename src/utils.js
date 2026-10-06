@@ -30,12 +30,27 @@ function debouncer(callback, delay) {
 function formatHour(time) {
     return new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
-    }).format(new Date(time));
+    }).format(time);
 }
+
+function formatWeatherTime(time) {
+    const [hours, minutes] = time.split('T')[1].split(':');
+
+    const date = new Date();
+    date.setHours(Number(hours), Number(minutes));
+
+    return new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+    }).format(date);
+}
+
+
 
 export { 
     getSearchValue, 
     getWindDirection, 
     debouncer, 
-    formatHour 
+    formatHour,
+    formatWeatherTime, 
 };
