@@ -32,6 +32,18 @@ let currentWeather;
 
 const storage = new Storage();
 let measurementSystem = storage.get('measurementSystem') ?? 'metric';
+let timeFormat = storage.get('timeFormat') ?? '24'; 
+
+updateToggleState(Cloud9.UI.unitToggler, measurementSystem, 'unit');
+updateToggleState(Cloud9.UI.timeToggler, measurementSystem, 'timeFormat');
+
+function updateToggleState(toggle, active, dataAttr) {
+    const buttons = document.querySelectorAll('fieldset button');
+
+    buttons.forEach(button => {
+        button.classList.toggle('active', button.dataset[dataAttr] === active);
+    });
+}
 
 function renderWeather() {
     if(!currentWeather) {
@@ -41,8 +53,8 @@ function renderWeather() {
     showCurrentWeatherDetails(currentWeather.current, measurementSystem);
 
     const hourlyForecast = parseHourlyWeather(currentWeather.hourly);
-    showHourlyWeather(hourlyForecast.slice(0, 12), measurementSystem);
-    showAdditionalWeatherDetails(currentWeather, measurementSystem);
+    showHourlyWeather(hourlyForecast.slice(0, 12), measurementSystem, timeFormat);
+    showAdditionalWeatherDetails(currentWeather, measurementSystem, timeFormat);
 }
 
 async function handleLocationSelect(latitude, longitude, locationName) {
@@ -126,5 +138,22 @@ Cloud9.UI.unitToggler.addEventListener('click', e => {
     }
 
     storage.set('measurementSystem', measurementSystem);
+    updateToggleState(Cloud9.UI.unitToggler, measurementSystem, 'unit');
+    renderWeather();
+});
+
+Cloud9.UI.timeToggler.addEventListener('click', e => {
+    const toggle24 = e.target.closest('.use-24');
+    const toggle12 = e.target.closest('.use-12');
+
+    if(toggle24) {
+        timeFormat = '24';
+    }
+    else if(toggle12) {
+        timeFormat = '12';
+    }
+
+    storage.set('timeFormat', timeFormat);
+    updateToggleState(Cloud9.UI.timeToggler, timeFormat, 'timeFormat');
     renderWeather();
 });

@@ -45,13 +45,15 @@ function formatVisibility(meters, measurementSystem) {
     return `${kilometers.toFixed(1)} km`;
 }
 
-function formatHour(time) {
+function formatHour(time, timeFormat) {
     return new Intl.DateTimeFormat('en-US', {
-        hour: '2-digit',
+        hour: 'numeric',
+        minute: 'numeric',
+        hourCycle: timeFormat === '24' ? 'h23' : 'h12',
     }).format(time);
 }
 
-function formatWeatherTime(time) {
+function formatWeatherTime(time, timeFormat) {
     const [hours, minutes] = time.split('T')[1].split(':');
 
     const date = new Date();
@@ -60,6 +62,7 @@ function formatWeatherTime(time) {
     return new Intl.DateTimeFormat('en-US', {
         hour: 'numeric',
         minute: '2-digit',
+        hourCycle: timeFormat === '24' ? 'h23' : 'h12',
     }).format(date);
 }
 

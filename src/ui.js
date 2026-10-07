@@ -41,16 +41,16 @@ function showCurrentWeatherDetails(currentForecast, measurementSystem) {
 }
 
 
-function showAdditionalWeatherDetails(weather, measurementSystem) {
+function showAdditionalWeatherDetails(weather, measurementSystem, timeFormat) {
     const { current, daily } = weather;
 
-    Cloud9.UI.sunrise.textContent = formatWeatherTime(daily.sunrise[0]);
-    Cloud9.UI.sunset.textContent = formatWeatherTime(daily.sunset[0]);
+    Cloud9.UI.sunrise.textContent = formatWeatherTime(daily.sunrise[0], timeFormat);
+    Cloud9.UI.sunset.textContent = formatWeatherTime(daily.sunset[0], timeFormat);
     Cloud9.UI.humidity.textContent = `${current.relative_humidity_2m}%`;
     Cloud9.UI.visibility.textContent = formatVisibility(current.visibility, measurementSystem);
 } 
 
-function showHourlyWeather(forecast, measurementSystem) {
+function showHourlyWeather(forecast, measurementSystem, timeFormat) {
     Cloud9.UI.hourlyForecast.innerHTML = '';
 
     forecast.forEach(f => {
@@ -58,7 +58,7 @@ function showHourlyWeather(forecast, measurementSystem) {
         
         createHtmlElement('span', listItem, {
             className: 'hourly-weather-time',
-            textContent: formatHour(new Date(f.time)),
+            textContent: formatHour(new Date(f.time), timeFormat),
         });
 
         createHtmlElement('span', listItem, {

@@ -23,10 +23,16 @@
             <div class="search-suggestions" hidden>
 
             </div>
-            <div class="unit-toggle">
+            <fieldset class="unit-toggle">
+                <legend>Unit Preference</legend>
                 <button type="button" class="unit-button use-celsius active" data-unit="celsius">Celsius</button>
                 <button type="button" class="unit-button use-fahrenheit" data-unit="fahrenheit">Fahrenheit</button>
-            </div>
+            </fieldset>
+            <fieldset class="time-toggle">
+                <legend>Time Format</legend>
+                <button type="button" class="time-format-button use-24 active" data-time-format="24">24H</button>
+                <button type="button" class="time-format-button use-12" data-time-format="12">12H</button>
+            </fieldset>
         </div>
     </header>
     <main class="weather-report">
