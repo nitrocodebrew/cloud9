@@ -52,7 +52,7 @@ function renderWeather() {
 
     showCurrentWeatherDetails(currentWeather.current, measurementSystem);
 
-    const hourlyForecast = parseHourlyWeather(currentWeather.hourly);
+    const hourlyForecast = parseHourlyWeather(currentWeather.hourly, currentWeather.current.time);
     showHourlyWeather(hourlyForecast.slice(0, 12), measurementSystem, timeFormat);
     showAdditionalWeatherDetails(currentWeather, measurementSystem, timeFormat);
 }

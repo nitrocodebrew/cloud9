@@ -46,10 +46,14 @@ async function getWeatherDetails(latitude, longitude, signal) {
     return data;
 }
 
-function parseHourlyWeather(data) {
+function parseHourlyWeather(data, currentTime) {
     const results = [];
 
     for(let i = 0; i < data.time.length; i++) {
+        if(data.time[i] < currentTime) {
+            continue;
+        }
+
         results.push({
             time: data.time[i],
             temperature: data.temperature_2m[i],
