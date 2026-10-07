@@ -35,10 +35,10 @@ let measurementSystem = storage.get('measurementSystem') ?? 'metric';
 let timeFormat = storage.get('timeFormat') ?? '24'; 
 
 updateToggleState(Cloud9.UI.unitToggler, measurementSystem, 'unit');
-updateToggleState(Cloud9.UI.timeToggler, measurementSystem, 'timeFormat');
+updateToggleState(Cloud9.UI.timeToggler, timeFormat, 'timeFormat');
 
 function updateToggleState(toggle, active, dataAttr) {
-    const buttons = document.querySelectorAll('fieldset button');
+    const buttons = toggle.querySelectorAll('button');
 
     buttons.forEach(button => {
         button.classList.toggle('active', button.dataset[dataAttr] === active);
