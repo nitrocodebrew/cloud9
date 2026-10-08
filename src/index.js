@@ -38,6 +38,7 @@ let timeFormat = storage.get('timeFormat') ?? '24';
 updateToggleState(Cloud9.UI.unitToggler, measurementSystem, 'unit');
 updateToggleState(Cloud9.UI.timeToggler, timeFormat, 'timeFormat');
 
+
 function updateToggleState(toggle, active, dataAttr) {
     const buttons = toggle.querySelectorAll('button');
 
@@ -224,3 +225,13 @@ const defaultLocation = getDefaultLocation();
 if(defaultLocation) {
     handleLocationSelect(defaultLocation);
 }
+
+Cloud9.UI.preferencesButton.addEventListener('click', () => {
+    Cloud9.UI.preferencesDialog.showModal();
+});
+
+Cloud9.UI.preferencesDialog.addEventListener('click', e => {
+    if(e.target === Cloud9.UI.preferencesDialog) {
+        Cloud9.UI.preferencesDialog.close();
+    }
+});

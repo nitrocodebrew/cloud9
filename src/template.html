@@ -21,18 +21,35 @@
                 <input type="search" id="location-search" placeholder="Search for a city..."> 
             </form>
             <div class="search-suggestions" hidden>
-
             </div>
-            <fieldset class="unit-toggle">
-                <legend>Unit Preference</legend>
-                <button type="button" class="unit-button use-celsius active" data-unit="metric">Celsius</button>
-                <button type="button" class="unit-button use-fahrenheit" data-unit="us">Fahrenheit</button>
-            </fieldset>
-            <fieldset class="time-toggle">
-                <legend>Time Format</legend>
-                <button type="button" class="time-format-button use-24 active" data-time-format="24">24H</button>
-                <button type="button" class="time-format-button use-12" data-time-format="12">12H</button>
-            </fieldset>
+            <div class="open-prefs">
+                <button type="button" class="preferences-button">⚙ Preferences</button>
+            </div>
+            <dialog class="preferences-dialog">
+                <form method="dialog">
+                    <div class="preferences-dialog-header">
+                        <h2>Preferences</h2>
+
+                        <button type="submit" class="preferences-close-button" aria-label="Close preferences">&times;</button>
+                    </div>
+                </form>
+
+                <div class="preferences-dialog-content">
+                    <fieldset class="unit-toggle">
+                        <legend>Temperature</legend>
+
+                        <button type="button" class="unit-button use-celsius" data-unit="metric">Celsius</button>
+                        <button type="button" class="unit-button use-fahrenheit" data-unit="us">Fahrenheit</button>
+                    </fieldset>
+
+                    <fieldset class="time-toggle">
+                        <legend>Time Format</legend>
+
+                        <button type="button" class="time-format-button use-24" data-time-format="24">24 Hour</button>
+                        <button type="button" class="time-format-button use-12" data-time-format="12">12 Hour</button>
+                    </fieldset>
+                </div>
+            </dialog>
         </div>
     </header>
     <main class="weather-report">

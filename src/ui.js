@@ -8,12 +8,7 @@ import {
     formatVisibility,
 
 } from "./utils.js";
-import { getWeatherDetails, parseHourlyWeather } from "./weather.js";
 import weatherDescriptions from "./weatherDescriptions.js";
-
-function $(selector, target = document) {
-    return target.querySelector(selector);
-}
 
 function createHtmlElement(tag, parentElement, attrs = {}) {
     const htmlElement = document.createElement(tag);
@@ -130,7 +125,6 @@ function clearWeatherStatus() {
 }
 
 export { 
-    $, 
     createHtmlElement, 
     showSearchSuggestions, 
     showLoadingPlaceholder, 

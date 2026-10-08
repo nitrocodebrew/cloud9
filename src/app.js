@@ -1,10 +1,13 @@
-import { $ } from "./ui.js";
+function $(selector, target = document) {
+    return target.querySelector(selector);
+}
 
 const Cloud9 = {
     UI: {
         locationSearch: $('#location-search'),
-        locationSearchBtn: $('.location-search-btn'),
         searchSuggestions: $('.search-suggestions'),
+        preferencesButton: $('.preferences-button'),
+        preferencesDialog: $('.preferences-dialog'),
         unitToggler: $('.unit-toggle'),
         timeToggler: $('.time-toggle'),
         weatherStatus: $('.weather-status'),
