@@ -10,6 +10,7 @@ const Cloud9 = {
         weatherStatus: $('.weather-status'),
         weatherContainer: $('.weather-container'),
         locationName: $('.location-name'),
+        defaultLocationBtn: $('.default-location-button'),
         currentTemp: $('.current-temp'),
         currentApparentTemp: $('.current-apparent-temp'),
         currentConditions: $('.current-conditions'),

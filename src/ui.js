@@ -3,9 +3,7 @@ import {
     getWindDirection, 
     formatHour, 
     formatWeatherTime,
-    celsiusToFahrenheit,
     formatWindSpeed,
-    kmhToMph,
     formatTemperature,
     formatVisibility,
 
@@ -104,12 +102,9 @@ function showSearchSuggestions(locations, onLocationSelect) {
             }
         );
 
-        suggestion.addEventListener('click', e => {
-            const { latitude, longitude, locationName } = e.currentTarget.dataset;
-
-            onLocationSelect(latitude, longitude, locationName);
-        });
-
+        suggestion.addEventListener('click', () => {
+            onLocationSelect(loc);
+        })
     });
 }
 

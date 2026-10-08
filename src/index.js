@@ -27,9 +27,10 @@ import Storage from "./storage.js";
 let controller;
 let weatherController;
 let weatherRequestID = 0;
-
 let currentWeather;
+let currentLocation;
 
+const DEFAULT_LOCATION_KEY = 'defaultLocation';
 const storage = new Storage();
 let measurementSystem = storage.get('measurementSystem') ?? 'metric';
 let timeFormat = storage.get('timeFormat') ?? '24'; 
@@ -57,7 +58,9 @@ function renderWeather() {
     showAdditionalWeatherDetails(currentWeather, measurementSystem, timeFormat);
 }
 
-async function handleLocationSelect(latitude, longitude, locationName) {
+async function handleLocationSelect(location) {
+    const { latitude, longitude, name } = location;
+
     if(weatherController) {
         weatherController.abort();
     }
@@ -76,10 +79,13 @@ async function handleLocationSelect(latitude, longitude, locationName) {
             return;
         }
 
+        currentLocation = location;
+
         Cloud9.UI.weatherContainer.hidden = false;
         Cloud9.UI.searchSuggestions.hidden = true;
-        Cloud9.UI.locationName.textContent = locationName;
+        Cloud9.UI.locationName.textContent = name;
 
+        updateDefaultLocationButton(location);
         renderWeather();
         clearWeatherStatus();
     }
@@ -89,6 +95,53 @@ async function handleLocationSelect(latitude, longitude, locationName) {
         }
 
         showWeatherError();
+    }
+}
+
+function getDefaultLocation() {
+    const savedLocation = storage.get(DEFAULT_LOCATION_KEY);
+
+    if(!savedLocation) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(savedLocation);
+    }
+    catch {
+        storage.remove(DEFAULT_LOCATION_KEY);
+        return null;
+    }
+}
+
+function updateDefaultLocationButton(location) {
+    const defaultLocation = getDefaultLocation();
+
+    const isDefault = defaultLocation && Number(defaultLocation.latitude) === Number(location.latitude) && Number(defaultLocation.longitude) === Number(location.longitude);
+
+    Cloud9.UI.defaultLocationBtn.hidden = false;
+
+    if(isDefault) {
+        Cloud9.UI.defaultLocationBtn.textContent = '★ Default Location';
+        Cloud9.UI.defaultLocationBtn.disabled = true;
+    }
+    else {
+        Cloud9.UI.defaultLocationBtn.textContent = '☆ Set as Default';
+        Cloud9.UI.defaultLocationBtn.disabled = false;
+    }
+}
+
+function setDefaultLocation(location) {
+    const saved = storage.set(DEFAULT_LOCATION_KEY, JSON.stringify({
+        name: location.name,
+        admin1: location.admin1,
+        country: location.country,
+        latitude: location.latitude,
+        longitude: location.longitude,
+    }));
+
+    if(saved) {
+        updateDefaultLocationButton(location);
     }
 }
 
@@ -157,3 +210,17 @@ Cloud9.UI.timeToggler.addEventListener('click', e => {
     updateToggleState(Cloud9.UI.timeToggler, timeFormat, 'timeFormat');
     renderWeather();
 });
+
+Cloud9.UI.defaultLocationBtn.addEventListener('click', () => {
+    if(!currentLocation) {
+        return;
+    }
+
+    setDefaultLocation(currentLocation);
+});
+
+const defaultLocation = getDefaultLocation();
+
+if(defaultLocation) {
+    handleLocationSelect(defaultLocation);
+}
