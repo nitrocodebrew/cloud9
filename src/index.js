@@ -126,7 +126,7 @@ function updateDefaultLocationButton(location) {
         Cloud9.UI.defaultLocationBtn.disabled = true;
     }
     else {
-        Cloud9.UI.defaultLocationBtn.textContent = '☆ Set as Default';
+        Cloud9.UI.defaultLocationBtn.textContent = '☆ Set as Default Location';
         Cloud9.UI.defaultLocationBtn.disabled = false;
     }
 }
