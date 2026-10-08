@@ -4,6 +4,7 @@ function $(selector, target = document) {
 
 const Cloud9 = {
     UI: {
+        locationSearchForm: $('#location-search-form'),
         locationSearch: $('#location-search'),
         searchSuggestions: $('.search-suggestions'),
         preferencesButton: $('.preferences-button'),

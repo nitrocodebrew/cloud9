@@ -235,3 +235,5 @@ Cloud9.UI.preferencesDialog.addEventListener('click', e => {
         Cloud9.UI.preferencesDialog.close();
     }
 });
+
+Cloud9.UI.locationSearchForm.addEventListener('submit', e => e.preventDefault());
