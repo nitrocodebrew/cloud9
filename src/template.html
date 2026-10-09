@@ -10,47 +10,53 @@
     <meta name="description" content="Weather application created with JavaScript, asynchronous programming techniques, and Open-Meteo API.">
     <meta name="robots" content="index, follow">
 
+    <link rel="stylesheet" href="style.css">
     <script src="index.js" type="module"></script>
 
 </head>
 <body>
     <header class="header">
         <div class="container header-container">
-            <form id="location-search-form">
-                <label for="location-search">Find your city</label>
-                <input type="search" id="location-search" placeholder="Search for a city..."> 
-            </form>
-            <div class="search-suggestions" hidden>
+            <div class="search-area">
+                <form id="location-search-form">
+                    <label for="location-search">Find your city</label>
+                    <input type="search" id="location-search" placeholder="Search for a city..." autocomplete="off" aria-controls="search-suggestions" aria-expanded="false">
+                </form>
+
+                <div id="search-suggestions" class="search-suggestions" hidden>
+
+                </div>
             </div>
+
             <div class="open-prefs">
                 <button type="button" class="preferences-button">⚙ Preferences</button>
             </div>
-            <dialog class="preferences-dialog">
-                <form method="dialog">
-                    <div class="preferences-dialog-header">
-                        <h2>Preferences</h2>
-
-                        <button type="submit" class="preferences-close-button" aria-label="Close preferences">&times;</button>
-                    </div>
-                </form>
-
-                <div class="preferences-dialog-content">
-                    <fieldset class="unit-toggle">
-                        <legend>Temperature</legend>
-
-                        <button type="button" class="unit-button use-celsius" data-unit="metric">Celsius</button>
-                        <button type="button" class="unit-button use-fahrenheit" data-unit="us">Fahrenheit</button>
-                    </fieldset>
-
-                    <fieldset class="time-toggle">
-                        <legend>Time Format</legend>
-
-                        <button type="button" class="time-format-button use-24" data-time-format="24">24 Hour</button>
-                        <button type="button" class="time-format-button use-12" data-time-format="12">12 Hour</button>
-                    </fieldset>
-                </div>
-            </dialog>
         </div>
+        <dialog class="preferences-dialog">
+            <form method="dialog">
+                <div class="preferences-dialog-header">
+                    <h2>Preferences</h2>
+
+                    <button type="submit" class="preferences-close-button" aria-label="Close preferences">&times;</button>
+                </div>
+            </form>
+
+            <div class="preferences-dialog-content">
+                <fieldset class="unit-toggle">
+                    <legend>Temperature</legend>
+
+                    <button type="button" class="unit-button use-celsius" data-unit="metric">Celsius</button>
+                    <button type="button" class="unit-button use-fahrenheit" data-unit="us">Fahrenheit</button>
+                </fieldset>
+
+                <fieldset class="time-toggle">
+                    <legend>Time Format</legend>
+
+                    <button type="button" class="time-format-button use-24" data-time-format="24">24 Hour</button>
+                    <button type="button" class="time-format-button use-12" data-time-format="12">12 Hour</button>
+                </fieldset>
+            </div>
+        </dialog>
     </header>
     <main class="weather-report">
         <div class="container weather-report-container">

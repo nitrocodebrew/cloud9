@@ -1,0 +1,185 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+}
+
+*::before, *::after {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none!important;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+label {
+    font-weight: 700;
+    display: block;
+}
+
+input, select, textarea, button {
+    font: inherit;
+}
+
+input[type="submit"], input[type="button"], button {
+    cursor: pointer;
+}
+
+.container {
+    width: min(100% - 2rem, 1300px);
+    margin-inline: auto;
+    padding-block: 1.25rem;
+}
+
+.header-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1.5rem;
+}
+
+.search-area {
+    position: relative;
+    min-width: 0;
+}
+
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.search-area form {
+    display: grid;
+    gap: 0.5rem;
+}
+
+#location-search {
+    width: 100%;
+    min-width: 0;
+    padding: 0.8rem 1rem;
+}
+
+.open-prefs {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.preferences-button,
+.unit-button,
+.time-format-button {
+    padding: 0.7rem 1rem;
+    border-radius: 0.65rem;
+}
+
+.weather-container {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.current-weather-details,
+.hourly-forecast,
+.additional-weather-data {
+    min-width: 0;
+    padding: clamp(1rem, 3vw, 1.75rem);
+}
+
+.current-weather-forecast {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.current-weather-forecast-detail {
+    min-width: 0;
+    padding: 1rem;
+}
+
+.current-weather-forecast-detail h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.current-temp {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.hourly-forecast ul {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.hourly-forecast li {
+    min-width: 0;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.additional-weather-data dl {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+}
+
+.additional-data-cell {
+    min-width: 0;
+}
+
+.additional-data-cell dt {
+    font-size: 0.9rem;
+}
+
+.additional-data-cell dd {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+
+.footer {
+    text-align: center;
+}
+
+
+:focus-visible {
+    outline-offset: 3px;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+
+@media (max-width: 800px) {
+    .current-weather-forecast {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .current-weather-forecast-detail {
+        padding: 1rem 0;
+    }
+
+    .additional-weather-data dl {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hourly-forecast ul {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
