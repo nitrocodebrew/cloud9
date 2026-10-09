@@ -65,28 +65,25 @@
                     <div class="set-default-location">
                         <button type="button" class="default-location-button" hidden>☆ Set as Default Location</button>
                     </div>
-                    <dl>
-                        <div class="current-row">
-                            <dt>Temperature</dt>
-                            <dd class="current-temp"></dd>
+                    <div class="current-weather-forecast">
+                        <div class="current-weather-forecast-detail">
+                            <h2 class="current-weather-forecast-headline">Temperature</h2>
+                            <div class="current-temperature-details">
+                                <span class="current-temp"></span>
+                                <small>Feels Like</small>
+                                <span class="current-apparent-temp"></span>
+                            </div>
                         </div>
-                        <div class="current-row">
-                            <dt>Feels Like</dt>
-                            <dd class="current-apparent-temp"></dd>
+                        <div class="current-weather-forecast-detail">
+                            <h2 class="current-forecast-detail-headline">Wind</h2>
+                            <span class="current-wind"></span>
+                            <span class="current-wind-direction"></span>
                         </div>
-                        <div class="current-row">
-                            <dt>Conditions</dt>
-                            <dd class="current-conditions"></dd>
+                        <div class="current-weather-forecast-detail">
+                            <h2 class="current-forecast-detail-headline">Conditions</h2>
+                            <span class="current-conditions"></span>
                         </div>
-                        <div class="current-row">
-                            <dt>Wind</dt>
-                            <dd class="current-wind"></dd>
-                        </div>
-                        <div class="current-row">
-                            <dt>Wind Direction</dt>
-                            <dd class="current-wind-direction"></dd>
-                        </div>
-                    </dl>
+                    </div>
                 </section>
                 <section class="hourly-forecast">
                     <h2>Hourly</h2>
